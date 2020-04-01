@@ -82,8 +82,9 @@ class ht_pagantis {
      */
     function execute()
     {
-        global $order;
+        global $order, $oscTemplate;
 
+        ob_start();
         $productId = $GLOBALS["HTTP_GET_VARS"]["products_id"];
         $checkoutPage = strpos($_SERVER[REQUEST_URI], "checkout_payment.php") > 0;
 
@@ -234,6 +235,7 @@ class ht_pagantis {
                 echo '</script>'. PHP_EOL;
             }
         }
+      $oscTemplate->addBlock(ob_get_clean(), $this->group);
     }
 
     /**
