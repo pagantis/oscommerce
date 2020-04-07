@@ -26,11 +26,11 @@ To install the plugin of Pagantis in your OsCommerce shop
 For more information about how to install the plugin, see our [installation section](/Documentation/installation.md).
 
 ## :gear: Configuration
-Configure the plugin in OsCommerce admin panel using the information found in your [Paga+Tarde profile](https://bo.pagamastarde.com/shop). 
+Configure the plugin in OsCommerce admin panel using the information found in your [Pagantis profile](https://bo.pagamastarde.com/shop). 
 
 For more information about how to config the module, see our [configuration section](/Documentation/configuration.md).
 
 ## :arrow_forward: Use
-To use in a real environment you should enable your Paga+Tarde account.
+To use in a real environment you should enable your Pagantis account.
 
 For more information about how to use the module, see our [use section](/Documentation/use.md).

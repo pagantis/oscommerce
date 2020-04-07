@@ -82,7 +82,7 @@ class ht_pagantis {
      */
     function execute()
     {
-        global $order, $oscTemplate;
+        global $order, $oscTemplate;;
 
         ob_start();
         $productId = $GLOBALS["HTTP_GET_VARS"]["products_id"];
@@ -117,12 +117,6 @@ class ht_pagantis {
 
         if (isset($productId) || $checkoutPage) {
             $simulatorCode = 'pgSDK';
-            if ($this->langCode == 'es' || $this->langCode == null) {
-                $this->extraConfig['PAGANTIS_SIMULATOR_DISPLAY_CSS_POSITION'] = 'pmtSDK.simulator.positions.INNER';
-                $this->extraConfig['PAGANTIS_SIMULATOR_DISPLAY_TYPE'] = 'pmtSDK.simulator.types.SIMPLE';
-                $this->extraConfig['PAGANTIS_SIMULATOR_DISPLAY_SKIN'] = 'pmtSDK.simulator.skins.BLUE';
-                $simulatorCode = 'pmtSDK';
-            }
 
             //Promoted amount on checkout page
             $promotedAmount = 0;
@@ -136,10 +130,12 @@ class ht_pagantis {
             }
 
             echo "<script src='".$this->sdkFile."'></script>". PHP_EOL;
+            echo '<style>#bodyContent>form>div>iframe {float: right; width: 280px !important; margin-right: -90px;} .contentContainer {clear: both;}</style>'. PHP_EOL;
             echo '<script>'. PHP_EOL;
             echo '        function loadSimulator()'. PHP_EOL;
             echo '        {'. PHP_EOL;
             echo '           if (typeof '.$simulatorCode.' != \'undefined\') {'. PHP_EOL;
+            echo '               var sdk = '.$simulatorCode.';'. PHP_EOL;
             echo '               var positionSelector = \'' . $this->extraConfig['PAGANTIS_SIMULATOR_CSS_POSITION_SELECTOR']. '\';'. PHP_EOL;
             echo '               var priceSelector = \'' . $this->extraConfig['PAGANTIS_SIMULATOR_CSS_PRICE_SELECTOR']. '\';'. PHP_EOL;
             echo '               var checkoutPriceSelector = \'' . $this->extraConfig['PAGANTIS_SIMULATOR_CSS_PRICE_SELECTOR']. '\';'. PHP_EOL;
@@ -147,14 +143,13 @@ class ht_pagantis {
             echo '               var checkoutPage =     \'' . $checkoutPage.'\';'. PHP_EOL;
             echo '               var promotedAmount =     \'' . $promotedAmount.'\';'. PHP_EOL;
             echo '               var langCode =     \'' . $this->langCode.'\';'. PHP_EOL;
-            echo '               var sdk = '.$simulatorCode.';'. PHP_EOL;
 
             echo '               if (positionSelector === \'default\') {'. PHP_EOL;
-            echo '                   positionSelector = \'.buttonSet\''. PHP_EOL;
+            echo '                   positionSelector = \'#bodyContent>form>div\''. PHP_EOL;
             echo '               }'. PHP_EOL;
 
             echo '               if (priceSelector === \'default\') {'. PHP_EOL;
-            echo '                   priceSelector = \'#bodyContent>form>div>h1\''. PHP_EOL;
+            echo '                   priceSelector = \'#bodyContent>form>div>h1:first-child\''. PHP_EOL;
             echo '               }'. PHP_EOL;
 
             echo '               if (checkoutPriceSelector == \'default\' && checkoutPage == \'1\')  {'. PHP_EOL;
@@ -176,7 +171,7 @@ class ht_pagantis {
 
             //Amount in product page
             echo '               var promotedProduct = \'' . $this->isPromoted($productId) .'\';'. PHP_EOL;
-            echo '               if(checkoutPage != \'1\' ) {';
+            echo '               if(checkoutPage != \'1\' ) {'. PHP_EOL;
             echo '               product_simulator.itemAmountSelector = priceSelector;'. PHP_EOL;
             echo '                   if(promotedProduct == \'1\') { ' . PHP_EOL;
             echo '                    product_simulator.itemPromotedAmountSelector = priceSelector;'. PHP_EOL;
@@ -185,10 +180,12 @@ class ht_pagantis {
 
             //Amount in checkout page
             echo '               if(checkoutPage == \'1\' ) { ' . PHP_EOL;
-            echo '               product_simulator.totalAmountSelector = priceSelector;'. PHP_EOL;
+            echo '                  product_simulator.totalAmountSelector = priceSelector;'. PHP_EOL;
             echo '                  if(promotedAmount != \'0\' && checkoutPage == \'1\' ) { ' . PHP_EOL;
             echo '                      product_simulator.totalPromotedAmount = promotedAmount;'. PHP_EOL;
             echo '                  }' . PHP_EOL;
+            echo '                  product_simulator.selector = \'.buttonSet\';' . PHP_EOL;
+            echo '                  product_simulator.type = ' .$this->extraConfig['PAGANTIS_SIMULATOR_DISPLAY_TYPE_CHECKOUT'] . PHP_EOL;
             echo '               }' . PHP_EOL;
             echo '               sdk.simulator.init(product_simulator);'. PHP_EOL;
             echo '               clearInterval(window.OSSimulatorId);'. PHP_EOL;
@@ -200,7 +197,7 @@ class ht_pagantis {
             //Invoke to main method
             echo '       window.OSSimulatorId = setInterval(function () {'. PHP_EOL;
             echo '          loadSimulator();'. PHP_EOL;
-            echo '       }, 2000);'. PHP_EOL;
+            echo '       }, 2500);'. PHP_EOL;
             echo '</script>'. PHP_EOL;
 
             //Checkout simulator

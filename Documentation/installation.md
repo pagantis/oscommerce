@@ -2,7 +2,7 @@
 
 ## :wrench: Admin panel
 
-To install the plugin of Paga+Tarde in your Oscommerce, we need to open the Oscommerce admin panel and follow the next steps:
+To install the plugin of Pagantis in your Oscommerce, we need to open the Oscommerce admin panel and follow the next steps:
 
 #### Common steps
 1. Download the zip file from [here](https://github.com/pagantis/oscommerce/releases/latest). The name could be different according the last version of the plugin(Vx.x.x)

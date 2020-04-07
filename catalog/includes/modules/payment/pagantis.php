@@ -42,7 +42,8 @@ class pagantis
     public $errorLinkMessage;
 
     public $defaultConfigs = array(
-        'PAGANTIS_SIMULATOR_DISPLAY_TYPE'=>'sdk.simulator.types.SIMPLE',
+        'PAGANTIS_SIMULATOR_DISPLAY_TYPE'=>'sdk.simulator.types.PRODUCT_PAGE',
+        'PAGANTIS_SIMULATOR_DISPLAY_TYPE_CHECKOUT'=>'sdk.simulator.types.CHECKOUT_PAGE',
         'PAGANTIS_SIMULATOR_DISPLAY_SKIN'=>'sdk.simulator.skins.BLUE',
         'PAGANTIS_SIMULATOR_DISPLAY_POSITION'=>'hookDisplayProductButtons',
         'PAGANTIS_SIMULATOR_START_INSTALLMENTS'=>3,
@@ -56,7 +57,7 @@ class pagantis
         'PAGANTIS_DISPLAY_MIN_AMOUNT'=>1,
         'PAGANTIS_URL_OK'=>'',
         'PAGANTIS_URL_KO'=>'',
-        'PAGANTIS_TITLE_EXTRA' => 'Paga hasta en 12 cómodas cuotas con Paga+Tarde. Solicitud totalmente online y sin papeleos,¡y la respuesta es inmediata!',
+        'PAGANTIS_TITLE_EXTRA' => 'Paga hasta en 12 cómodas cuotas con Pagantis. Solicitud totalmente online y sin papeleos,¡y la respuesta es inmediata!',
         'PAGANTIS_PROMOTION' => '',
         'PAGANTIS_PROMOTED_PRODUCT_CODE' => 'Finance this product <span class="pmt-no-interest">without interest!</span>',
         'PAGANTIS_ALLOWED_COUNTRIES' => 'a:3:{i:0;s:2:"es";i:1;s:2:"it";i:2;s:2:"fr";}',
@@ -70,7 +71,7 @@ class pagantis
      */
     public function __construct()
     {
-        $this->version = '8.1.8';
+        $this->version = '8.2.0';
         $this->code = 'pagantis';
         $this->sort_order = 0;
         $this->description = $this->getDescription();
