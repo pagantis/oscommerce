@@ -42,7 +42,8 @@ class pagantis
     public $errorLinkMessage;
 
     public $defaultConfigs = array(
-        'PAGANTIS_SIMULATOR_DISPLAY_TYPE'=>'sdk.simulator.types.SIMPLE',
+        'PAGANTIS_SIMULATOR_DISPLAY_TYPE'=>'sdk.simulator.types.PRODUCT_PAGE',
+        'PAGANTIS_SIMULATOR_DISPLAY_TYPE_CHECKOUT'=>'sdk.simulator.types.CHECKOUT_PAGE',
         'PAGANTIS_SIMULATOR_DISPLAY_SKIN'=>'sdk.simulator.skins.BLUE',
         'PAGANTIS_SIMULATOR_DISPLAY_POSITION'=>'hookDisplayProductButtons',
         'PAGANTIS_SIMULATOR_START_INSTALLMENTS'=>3,
@@ -54,9 +55,10 @@ class pagantis
         'PAGANTIS_SIMULATOR_CSS_PRICE_SELECTOR_CHECKOUT'=>'default',
         'PAGANTIS_FORM_DISPLAY_TYPE'=>0,
         'PAGANTIS_DISPLAY_MIN_AMOUNT'=>1,
+        'PAGANTIS_SIMULATOR_DISPLAY_MAX_AMOUNT'=>'0',
         'PAGANTIS_URL_OK'=>'',
         'PAGANTIS_URL_KO'=>'',
-        'PAGANTIS_TITLE_EXTRA' => 'Paga hasta en 12 cómodas cuotas con Paga+Tarde. Solicitud totalmente online y sin papeleos,¡y la respuesta es inmediata!',
+        'PAGANTIS_TITLE_EXTRA' => 'Paga hasta en 12 cómodas cuotas con Pagantis. Solicitud totalmente online y sin papeleos,¡y la respuesta es inmediata!',
         'PAGANTIS_PROMOTION' => '',
         'PAGANTIS_PROMOTED_PRODUCT_CODE' => 'Finance this product <span class="pmt-no-interest">without interest!</span>',
         'PAGANTIS_ALLOWED_COUNTRIES' => 'a:3:{i:0;s:2:"es";i:1;s:2:"it";i:2;s:2:"fr";}',
@@ -70,7 +72,7 @@ class pagantis
      */
     public function __construct()
     {
-        $this->version = '8.1.8';
+        $this->version = '8.2.0';
         $this->code = 'pagantis';
         $this->sort_order = 0;
         $this->description = $this->getDescription();
@@ -232,6 +234,7 @@ class pagantis
                 ->setFixPhone($order->customer['telephone'])
                 ->setMobilePhone($order->customer['telephone'])
                 ->setNationalId($national_id)
+                ->setDni($national_id)
                 ->setTaxId($tax_id);
 
             $orderBillingAddress = $userAddress;
@@ -255,6 +258,7 @@ class pagantis
                 ->setMobilePhone($order->customer['telephone'])
                 ->setShippingAddress($orderShippingAddress)
                 ->setNationalId($national_id)
+                ->setDni($national_id)
                 ->setTaxId($tax_id);
 
             $previousOrders = $this->getOrders();
@@ -272,9 +276,11 @@ class pagantis
 
             $metadataOrder = new \Pagantis\OrdersApiClient\Model\Order\Metadata();
             $metadata = array(
-                'oscommerce' => PROJECT_VERSION,
-                'pagantis' => $this->version,
-                'php' => phpversion()
+                'member_since' => $this->getMemberSince(),
+                'pg_module' => 'oscommerce',
+                'pg_version' => $this->version,
+                'ec_module' => 'oscommerce',
+                'ec_version' => PROJECT_VERSION
             );
             foreach ($metadata as $key => $metadatum) {
                 $metadataOrder->addMetadata($key, $metadatum);
@@ -647,6 +653,26 @@ and orders_total.class='ot_total'",
         }
 
         return $response;
+    }
+
+    /**
+     * @return array
+     */
+    private function getMemberSince()
+    {
+        $memberSince = null;
+        if (trim($_SESSION['customer_id']) != '') {
+            $query = sprintf(
+                "select customers_info_date_account_created from customers_info where customers_info_id='%s'",
+                $_SESSION['customer_id']
+            );
+
+            $response = array();
+            $resultsSelect = tep_db_query($query);
+            $orderRow = tep_db_fetch_array($resultsSelect);
+            $memberSince = date('Y-m-d', strtotime($orderRow['customers_info_date_account_created']));
+        }
+        return $memberSince;
     }
 
     /**

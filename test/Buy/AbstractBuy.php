@@ -45,7 +45,7 @@ abstract class AbstractBuy extends PagantisOscommerceTest
     /**
      * Pagantis Order Title
      */
-    const PAGANTIS_TITLE = 'Paga+Tarde';
+    const PAGANTIS_TITLE = 'Pagantis';
 
     /**
      * Notification route

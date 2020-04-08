@@ -8,4 +8,4 @@ In Pagantis admin panel we can modify title.
 
 ![Step 1](./oscommerce_checkout.png?raw=true "Step 1")
 
-After press "Paga+Tarde" button, the user will be redirected to Pagantis side or watch our form in a pop-up over checkout page, according with the configuration in our Pagantis admin panel.
+After press "Pagantis" button, the user will be redirected to Pagantis side or watch our form in a pop-up over checkout page, according with the configuration in our Pagantis admin panel.

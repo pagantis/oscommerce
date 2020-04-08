@@ -31,10 +31,10 @@ class ConfigurePPPTest extends AbstractConfigure
     public function configurePPP()
     {
         // click on Pagantis
-        $button = WebDriverBy::xpath("//td[contains(text(), 'Paga+Tarde')]");
+        $button = WebDriverBy::xpath("//td[contains(text(), 'Pagantis')]");
         $condition = WebDriverExpectedCondition::visibilityOfElementLocated($button);
         $this->waitUntil($condition);
-        $this->findByXpath("//td[contains(text(), 'Paga+Tarde')]")->click();
+        $this->findByXpath("//td[contains(text(), 'Pagantis')]")->click();
 
         // click on manage PPP
         $this->findByLinkText($this->configuration['pppText'])->click();
