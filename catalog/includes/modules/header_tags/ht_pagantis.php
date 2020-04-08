@@ -78,16 +78,36 @@ class ht_pagantis {
     }
 
     /**
+     * @return int
+     */
+    private function getProductPrice()
+    {
+        $query       = "select products_price from products where products_id ='" . urlencode($_GET['products_id']) . "'";
+        $result      = tep_db_query($query);
+        $resultArray = tep_db_fetch_array($result);
+        return (int)$resultArray['products_price'];
+    }
+
+    /**
      * Execute function
      */
     function execute()
     {
-        global $order, $oscTemplate;;
+        global $order, $oscTemplate;
 
         ob_start();
         $productId = $GLOBALS["HTTP_GET_VARS"]["products_id"];
         $checkoutPage = strpos($_SERVER[REQUEST_URI], "checkout_payment.php") > 0;
 
+        if (isset($productId) && $checkoutPage!='1') {
+            $productPrice = $this->getProductPrice();
+            $pagantisDisplayMinAmount = $this->extraConfig['PAGANTIS_DISPLAY_MIN_AMOUNT'];
+            $pagantisDisplayMaxAmount = $this->extraConfig['PAGANTIS_SIMULATOR_DISPLAY_MAX_AMOUNT'];
+            if (($productPrice > (int)$pagantisDisplayMaxAmount  && (int)$pagantisDisplayMaxAmount != '0') ||
+                $productPrice < (int)$pagantisDisplayMinAmount) {
+                return false;
+            }
+        }
         //Show promoted html
         if ($this->isPromoted($productId) && $checkoutPage!='1') {
             echo "<style> #promotedText{margin-left: 10%;} .pmt-no-interest{color: #00c1d5 }</style>";
