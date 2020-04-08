@@ -273,9 +273,11 @@ class pagantis
 
             $metadataOrder = new \Pagantis\OrdersApiClient\Model\Order\Metadata();
             $metadata = array(
-                'oscommerce' => PROJECT_VERSION,
-                'pagantis' => $this->version,
-                'php' => phpversion()
+                'member_since' => $this->getMemberSince(),
+                'pg_module' => 'oscommerce',
+                'pg_version' => $this->version,
+                'ec_module' => 'oscommerce',
+                'ec_version' => PROJECT_VERSION
             );
             foreach ($metadata as $key => $metadatum) {
                 $metadataOrder->addMetadata($key, $metadatum);
@@ -648,6 +650,26 @@ and orders_total.class='ot_total'",
         }
 
         return $response;
+    }
+
+    /**
+     * @return array
+     */
+    private function getMemberSince()
+    {
+        $memberSince = null;
+        if (trim($_SESSION['customer_id']) != '') {
+            $query = sprintf(
+                "select customers_info_date_account_created from customers_info where customers_info_id='%s'",
+                $_SESSION['customer_id']
+            );
+
+            $response = array();
+            $resultsSelect = tep_db_query($query);
+            $orderRow = tep_db_fetch_array($resultsSelect);
+            $memberSince = date('Y-m-d', strtotime($orderRow['customers_info_date_account_created']));
+        }
+        return $memberSince;
     }
 
     /**

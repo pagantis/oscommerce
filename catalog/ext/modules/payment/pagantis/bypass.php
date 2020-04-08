@@ -10,5 +10,3 @@ if ($_POST['formUrl']) {
 
 header("Location: $destUrl");
 exit;
-?>
-
