@@ -234,6 +234,7 @@ class pagantis
                 ->setFixPhone($order->customer['telephone'])
                 ->setMobilePhone($order->customer['telephone'])
                 ->setNationalId($national_id)
+                ->setDni($national_id)
                 ->setTaxId($tax_id);
 
             $orderBillingAddress = $userAddress;
@@ -257,6 +258,7 @@ class pagantis
                 ->setMobilePhone($order->customer['telephone'])
                 ->setShippingAddress($orderShippingAddress)
                 ->setNationalId($national_id)
+                ->setDni($national_id)
                 ->setTaxId($tax_id);
 
             $previousOrders = $this->getOrders();
