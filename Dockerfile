@@ -2,7 +2,7 @@ FROM php:5.6-apache
 
 ADD ./config/ /
 
-ENV OSCOMMERCE_VERSION=2.3.4.1
+ENV OSCOMMERCE_VERSION=v2.2rc1
 
 RUN apt-get update && apt-get install -y --no-install-recommends mysql-client zip unzip && rm -rf /var/lib/apt/lists/*
 
