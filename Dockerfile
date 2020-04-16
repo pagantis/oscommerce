@@ -22,15 +22,6 @@ COPY ./config/admin_user.sql /var/www/html/admin/includes
 COPY ./config/languages.sql /var/www/html/admin/includes
 
 
-COPY ./i18n/oscommerce-spanish.zip /var/www/html/oscommerce-spanish.zip
-RUN cd /var/www/html/ && unzip oscommerce-spanish.zip
-COPY ./i18n/oscommerce-french.zip /var/www/html/oscommerce-french.zip
-RUN cd /var/www/html/ && unzip oscommerce-french.zip
-COPY ./i18n/oscommerce-italian.zip /var/www/html/oscommerce-italian.zip
-RUN cd /var/www/html/ && unzip oscommerce-italian.zip
-COPY ./i18n/oscommerce-portuguese.zip /var/www/html/oscommerce-portuguese.zip
-RUN cd /var/www/html/ && unzip oscommerce-portuguese.zip
-
 ENTRYPOINT ["/install.sh"]
 
 #RUN rm -rf /var/www/html/install
